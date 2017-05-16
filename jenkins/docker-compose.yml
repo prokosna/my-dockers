@@ -1,0 +1,16 @@
+data:
+  image: jenkins:latest
+  volumes:
+    - /var/jenkins_home
+  entrypoint:
+    - /bin/echo
+    - Gopher is cute
+
+master:
+  image: jenkins:2.46.2
+  ports:
+    - "8001:8080"
+    - "50000:50000"
+  volumes_from:
+    - data
+  restart: always 

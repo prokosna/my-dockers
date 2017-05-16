@@ -1,0 +1,6 @@
+java8:
+  build: .
+  dockerfile: Dockerfile_java8
+  ports:
+    - "10001:22"
+  restart: always
