@@ -1,23 +1,25 @@
-version: '2'
+version: '3'
+
+volumes:
+  conf:
+  extensions:
+  data:
 
 services:
   data:
-    image: sonarqube:latest
+    image: tianon/true
     volumes:
-      - /opt/sonarqube/conf
-      - /opt/sonarqube/extensions
-      - /var/lib/postgresql/data
-    entrypoint:
-      - /bin/echo
-      - Blame!
+      - conf:/opt/sonarqube/conf
+      - extensions:/opt/sonarqube/extensions
+      - data:/var/lib/postgresql/data
 
   db:
     image: postgres:latest
     environment:
       - POSTGRES_USER=sonar
       - POSTGRES_PASSWORD=sonar
-    volumes_from:
-      - data
+    volumes:
+      - data:/var/lib/postgresql/data
     restart: always
 
   sonarqube:
@@ -29,8 +31,9 @@ services:
       - SONARQUBE_JDBC_USERNAME=sonar
       - SONARQUBE_JDBC_PASSWORD=sonar
       - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar 
-    volumes_from:
-      - data
+    volumes:
+      - conf:/opt/sonarqube/conf
+      - extensions:/opt/sonarqube/extensions
     depends_on:
       - db
     restart: always
