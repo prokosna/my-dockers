@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  data:
+    image: sonarqube:latest
+    volumes:
+      - /opt/sonarqube/conf
+      - /opt/sonarqube/extensions
+      - /var/lib/postgresql/data
+    entrypoint:
+      - /bin/echo
+      - Blame!
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes_from:
+      - data
+    restart: always
+
+  sonarqube:
+    image: sonarqube:6.3.1
+    ports:
+      - "8003:9000"
+      - "8004:9092"
+    environment:
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar 
+    volumes_from:
+      - data
+    depends_on:
+      - db
+    restart: always
