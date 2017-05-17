@@ -1,17 +1,15 @@
 version: '3'
 
 volumes:
-  conf:
-  extensions:
-  data:
+  volume:
+  db:
 
 services:
   data:
     image: tianon/true
     volumes:
-      - conf:/opt/sonarqube/conf
-      - extensions:/opt/sonarqube/extensions
-      - data:/var/lib/postgresql/data
+      - volume:/opt/sonarqube
+      - db:/var/lib/postgresql/data
 
   db:
     image: postgres:latest
@@ -19,11 +17,12 @@ services:
       - POSTGRES_USER=sonar
       - POSTGRES_PASSWORD=sonar
     volumes:
-      - data:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     restart: always
 
   sonarqube:
-    image: sonarqube:6.3.1
+    build:
+      context: ./sonarqube
     ports:
       - "8003:9000"
       - "8004:9092"
@@ -32,8 +31,7 @@ services:
       - SONARQUBE_JDBC_PASSWORD=sonar
       - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar 
     volumes:
-      - conf:/opt/sonarqube/conf
-      - extensions:/opt/sonarqube/extensions
+      - volume:/opt/sonarqube
     depends_on:
       - db
     restart: always

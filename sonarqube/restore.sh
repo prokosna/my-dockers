@@ -9,7 +9,7 @@ fi
 BACKUP_FILE=$1
 DATA_CONTAINER=sonarqube_data_1
 
-cd ~/docker/sonarqube
+cd ~/services/sonarqube
 
 echo "INFO: Stopping containers..."
 docker-compose stop

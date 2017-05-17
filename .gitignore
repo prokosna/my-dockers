@@ -1,2 +1,4 @@
 */backup/*
 !.gitkeep
+*_rsa
+*_rsa.pub

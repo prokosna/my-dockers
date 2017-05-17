@@ -9,7 +9,7 @@ fi
 BACKUP_FILE=$1
 DATA_CONTAINER=jenkins_data_1
 
-cd ~/docker/jenkins
+cd ~/services/jenkins
 
 echo "INFO: Stopping containers..."
 docker-compose stop
