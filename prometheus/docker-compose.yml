@@ -1,0 +1,20 @@
+version: '3'
+
+volumes:
+  data:
+
+services:
+  data:
+    image: tianon/true
+    volumes:
+      - data:/prometheus
+
+  prometheus:
+    build:
+      context: ./prometheus
+    image: prokosna/prometheus:1
+    ports:
+      - "9090:9090"
+    volumes:
+      - data:/prometheus
+    restart: always

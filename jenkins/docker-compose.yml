@@ -1,13 +1,13 @@
 version: '3'
 
 volumes:
-  volume:
+  home:
 
 services:
   data:
     image: tianon/true
     volumes:
-      - volume:/var/jenkins_home
+      - home:/var/jenkins_home
 
   master:
     image: jenkins:2.46.2
@@ -15,5 +15,5 @@ services:
       - "8002:8080"
       - "50000:50000"
     volumes:
-      - volume:/var/jenkins_home
+      - home:/var/jenkins_home
     restart: always 
