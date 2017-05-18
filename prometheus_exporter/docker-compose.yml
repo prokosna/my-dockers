@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  node:
+    image: prom/node-exporter:v0.14.0
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys
+      - /:/rootfs
+      - /etc/hostname:/etc/host_hostname
+    ports:
+      - "9101:9100"
+    command: -collector.procfs /host/proc -collector.sysfs /host/sys -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($$|/)" --collectors.enabled="conntrack,diskstats,entropy,filefd,filesystem,loadavg,mdadm,meminfo,netdev,netstat,stat,time,vmstat"
+    restart: always
+
+  cadvisor:
+    build:
+      context: ./cadvisor
+    image: prokosna/cadvisor:1
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
+    ports:
+      - "9102:8080"
+    privileged: true
+    restart: always

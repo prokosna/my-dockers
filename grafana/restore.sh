@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd ~/services/prometheus
-DATA_CONTAINER=prometheus_data_1
+cd ~/services/grafana
+DATA_CONTAINER=grafana_data_1
 
 if [ -z $1 ]
 then

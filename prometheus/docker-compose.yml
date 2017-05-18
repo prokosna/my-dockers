@@ -14,7 +14,7 @@ services:
       context: ./prometheus
     image: prokosna/prometheus:1
     ports:
-      - "9090:9090"
+      - "9000:9090"
     volumes:
       - data:/prometheus
     restart: always

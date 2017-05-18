@@ -1,0 +1,27 @@
+version: '3'
+
+volumes:
+  data:
+
+services:
+  data:
+    image: tianon/true
+    volumes:
+      - data:/var/lib/grafana
+
+  grafana:
+    build:
+      context: ./grafana
+    image: prokosna/grafana:1
+    environment:
+      - "GF_SERVER_ROOT_URL=http://192.168.0.104:9001"
+      - "GF_AUTH_LDAP_ENABLED=true"
+      - "GF_AUTH_LDAP_CONFIG_FILE=/etc/grafana/ldap.toml"
+      - "GF_ALLOW_SIGN_UP=false"
+      - "SMTP_ENABLED=true"
+      - "SMTP_HOST=localhost:25"
+    volumes:
+      - data:/var/lib/grafana
+    ports:
+      - "9001:3000"
+    restart: always 
